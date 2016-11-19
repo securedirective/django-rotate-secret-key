@@ -2,6 +2,7 @@ import os
 import string
 import random
 from django.core.management.base import BaseCommand
+from django.utils import six
 from django.utils.six.moves import input
 from django.conf import settings
 
@@ -43,6 +44,14 @@ class Command(BaseCommand):
 		char_list = string.ascii_letters + string.digits + string.punctuation
 		generated_key = ''.join([random.SystemRandom().choice(char_list) for _ in range(50)])
 		self.stdout.write("NEW SECRET KEY:      {}".format(generated_key))
+
+		# Create directory if it doesn't already exist
+		key_dir = os.path.dirname(key_file)
+		if six.PY2:
+			if not os.path.isdir(key_dir):
+				os.makedirs(key_dir)
+		else:
+			os.makedirs(key_dir, exist_ok=True)
 
 		# Write new key to file
 		with open(key_file, 'w') as f:

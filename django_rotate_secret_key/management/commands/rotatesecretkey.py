@@ -35,7 +35,7 @@ class Command(BaseCommand):
 			if existing_key:
 				self.stdout.write("EXISTING SECRET KEY: {}".format(existing_key))
 				if not options.get('force'):
-					if input("Replace this with a new key? [Y/N] ").lower() != 'y': return
+					if input("Replace this with a new key? [y/N] ").lower() != 'y': return
 
 		self.stdout.write('')
 
